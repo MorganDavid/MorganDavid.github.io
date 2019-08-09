@@ -1,28 +1,156 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Hank Quinlan, Horrible Cop</title>
-	</head>
-	<body>
-		<nav>
-    		<ul>
-        		<li><a href="/">Home</a></li>
-	        	<li><a href="/about">About</a></li>
-        		<li><a href="/cv">CV</a></li>
-        		<li><a href="/blog">Blog</a></li>
-    		</ul>
-		</nav>
-		<div class="container">
-    		<div class="blurb">
-        		<h1>Hi there, I'm Hank Quinlan!</h1>
-				<p>I'm best known as the horrible cop from <em>A Touch of Evil</em> Don't trust me. <a href="/about">Read more about my life...</a></p>
-    		</div><!-- /.blurb -->
-		</div><!-- /.container -->
-		<footer>
-    		<ul>
-        		<li><a href="mailto:hankquinlanhub@gmail.com">email</a></li>
-        		<li><a href="https://github.com/hankquinlan">github.com/hankquinlan</a></li>
-			</ul>
-		</footer>
-	</body>
-</html>
+<head>
+	<link rel="stylesheet" href="styles.css">
+	<script src="vis.js"></script>
+  	<link href="vis.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<h1>The Enigma Machine</h1>
+	<div class="desc">This application emulates an Enigma I cipher machine introduced in 1932 (specificaly, the steckered machine described in <a target="blank" href="http://www.alanturing.net/turing_archive/archive/b/B05/B05-001.html">the Turing Archive</a>). Steps to encrypt a message are as follows: <p>1. Select three letters for the Rotor Windows, 2. Select three letters for ring offsets, 3. Configure the plugboard by dragging plugs into sockets, 4. Remember all these values, then enter your message in your physical keyboard, logging the lampboard output as you go - this will form your ciphertext. Transmit message.</p>
+
+	<p>To decrypt: Setup the Enigma machine using the same settings selected in steps 1 through 3. Enter cipher text, logging lampboard output as you go - the message is decrypted. Rotor order and reflector type must remain constant between encryption and decryption.</p>
+
+	<p> Click &#x1F6C8 on a modules title for more information.</p>
+	</div>
+	<div class="top">
+		<div class="rotors">
+			<h2><span class="icon" id="icon_windows" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_windows_popup">(Grundstellung) These three letters form part of your secret key and represent the start positions of the three rotors.</span></span> Rotor Windows</h2>
+			<table id="rotors">
+				<tr>
+					<th><input class="btn_incdec" id="+left" onclick="changeRotorBias(this.id)" type='button' value='+'/></th>
+					<th><input class="btn_incdec" id="+middle" onclick="changeRotorBias(this.id)" type='button' value='+'/></th> 
+					<th><input class="btn_incdec" id="+right" onclick="changeRotorBias(this.id)" type='button' value='+'/></th>
+				</tr>
+				<tr>
+					<th id="window_1">A</th>
+					<th id="window_2">A</th> 
+					<th id="window_3">A</th>
+				</tr>
+				<tr>
+					<th><input class="btn_incdec" id="-left" onclick="changeRotorBias(this.id)" type='button' value='-'/></th>
+					<th><input class="btn_incdec" id="-middle" onclick="changeRotorBias(this.id)" type='button' value='-'/></th> 
+					<th><input class="btn_incdec" id="-right" onclick="changeRotorBias(this.id)" type='button' value='-'/></th>
+				</tr>
+			</table>
+		</div>
+		<div class="ringstellung">
+			<h2><span class="icon" id="icon_ringoff" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_ringoff_popup">(Ringstellung) These three letters form part of your secret key and represent the state of the interal wiring of the rotor. </span></span> Ring Offset</h2>
+			<table id="rotors">
+				<tr>
+					<th><input class="btn_incdec" id="r+left" onclick="changeRotorOffset(this.id)" type='button' value='+'/></th>
+					<th><input class="btn_incdec" id="r+middle" onclick="changeRotorOffset(this.id)" type='button' value='+'/></th> 
+					<th><input class="btn_incdec" id="r+right" onclick="changeRotorOffset(this.id)" type='button' value='+'/></th>
+				</tr>
+				<tr>
+					<th id="offset_1">A</th>
+					<th id="offset_2">A</th> 
+					<th id="offset_3">A</th>
+				</tr>
+				<tr>
+					<th><input class="btn_incdec" id="r-left" onclick="changeRotorOffset(this.id)" type='button' value='-'/></th>
+					<th><input class="btn_incdec" id="r-middle" onclick="changeRotorOffset(this.id)" type='button' value='-'/></th> 
+					<th><input class="btn_incdec" id="r-right" onclick="changeRotorOffset(this.id)" type='button' value='-'/></th>
+				</tr>
+			</table>
+		</div>
+		<div class="rotor_order">
+			<h2><span class="icon" id="icon_order" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_order_popup">(Walzenlage) The order of the rotors in the machine. Recommended to be left default.</span></span> Rotor Order</h2>
+			<table id="rotor_order">
+				<tr>
+					<th>Left</th>
+					<th>Middle</th> 
+					<th>Right</th>
+				</tr>
+				<tr>
+					<th><select class="order_dropdown" onchange="changeRotorPositions('left',this.value)"></select></th>
+					<th><select class="order_dropdown" onchange="changeRotorPositions('middle',this.value)"></select></th>
+					<th><select class="order_dropdown" onchange="changeRotorPositions('right',this.value)"></select></th>
+				</tr>				
+			</table>
+			<h2><span class="icon" id="icon_reflc" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_reflc_popup">(Umkehrwalze) Type of reflector to be used. Recommended to be left default.</span></span> Reflector Type</h2>
+			<select onchange="changeReflector(this.value)"><option value="B">B</option>
+			<option value="C">C</option></select>
+
+		</div>
+	</div>
+	<div class="middle">
+		<div class="keyboard">
+		<h2><span class="icon" id="icon_lampboard" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_lampboard_popup">This is the output of the encryption that you type into your physical keyboard. </span> </span> Lampboard</h2>
+		<p>
+			<div class="key-depressed" id="key_81">Q</div>
+			<div class="key-depressed" id="key_87">W</div>
+			<div class="key-depressed" id="key_69">E</div>
+			<div class="key-depressed" id="key_82">R</div>
+			<div class="key-depressed" id="key_84">T</div>
+			<div class="key-depressed" id="key_89">Y</div>
+			<div class="key-depressed" id="key_85">U</div>
+			<div class="key-depressed" id="key_73">I</div>
+			<div class="key-depressed" id="key_79">O</div>
+			<div class="key-depressed" id="key_80">P</div>
+		</p>
+		<p>
+			<div style="margin-left:32px;">
+			<div class="key-depressed" id="key_65">A</div>
+			<div class="key-depressed" id="key_83">S</div>
+			<div class="key-depressed" id="key_68">D</div>
+			<div class="key-depressed" id="key_70">F</div>
+			<div class="key-depressed" id="key_71">G</div>
+			<div class="key-depressed" id="key_72">H</div>
+			<div class="key-depressed" id="key_74">J</div>
+			<div class="key-depressed" id="key_75">K</div>
+			<div class="key-depressed" id="key_76">L</div>
+			</div>
+		</p>
+		<p>
+			<div style="margin-left:68px;">
+			<div class="key-depressed" id="key_90">Z</div>
+			<div class="key-depressed" id="key_88">X</div>
+			<div class="key-depressed" id="key_67">C</div>
+			<div class="key-depressed" id="key_86">V</div>
+			<div class="key-depressed" id="key_66">B</div>
+			<div class="key-depressed" id="key_78">N</div>
+			<div class="key-depressed" id="key_77">M</div>
+			</div>
+		</p>
+		</div>
+		<div class="console">
+			<h2><span class="icon" id="icon_console" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_console_popup">Shows the process of encryption for the last key pressed. Also shows key press history with corresponding encrypted ciphertext.</span> </span> Console</h2>
+			<div class="log">
+				<nav>
+            	<ul id="log_list">
+	            </ul>
+	            <nav>
+			</div>
+			<div class="out">
+				<table>
+				
+				<tr><td>In:</td><td><input type="text" id="out_top" readonly></td><td><input type="button" id="btnClear" onclick="clearOutput()" title="Clear output" value="&#9003"/></td></tr>
+				<tr><td>Out:</td><td><input type="text" id="out_bot" readonly></td>
+					<td><input type="button" id="btnClear" onclick="copyOutput()" title="Copy output" value="&#128203"/></td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="bot_header">
+		
+		<input type="button" class="btn" onclick="UI_addPlug()" value="&#43 Add Plug"/>
+		<input type="button" class="btn" onclick="removePlug()" value="- Remove Plug"/>
+		
+		<h2><span class="icon" id="icon_plugboard" onclick="myFunction(this.id)">&#x1F6C8 <span class="popuptext" id="icon_plugboard_popup">The plugboard gives an extra layer of security. Drag the plugs to different sockets to swap the connected letters. The pairs of connected plugs are another part of the secret key. </span> </span> Plugboard</h2>
+	</div>
+	<div id="plugboard"></div>
+
+	<script src="plugboard.js"></script>
+	<script src="input.js"></script>
+
+	<script>
+		// When the user clicks on div, open the popup
+		function myFunction(id) {
+		  var popup = document.getElementById(id+"_popup");
+		  popup.classList.toggle("show");
+		  console.log("Clicked");
+		}
+	</script>
+
+</body>
