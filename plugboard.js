@@ -31,18 +31,23 @@ edges: edges
 var options = {nodes:{shape:'image', borderWidth:4, image:"images/plug.png"},
 					physics:{enabled:true},
 					interaction:{dragView:false,zoomView:false},
-					edges:{width:5,selectionWidth:6}};
+					edges:{width:5,selectionWidth:6},
+					layout:{hierarchical:{enabled:102}}};
 var network = new vis.Network(container, data, options);
 
 //Only runs at the start of the network, randomly places the plugs in sockets
 var done = false;
 network.on("afterDrawing",function(ctx){
 	if (!done){
+		network.moveTo({position:{x:-3.988492385495591,y:0.5159607990274256},scale:1});
 		let i=0;
 		for(i=1;i<=4;i+=2){
 			addPlug(i,i+1);
 		}
+
 	}
+
+	//network.moveTo(options:{postion:{x:0,y:0}});
 	done = true;
 	//Drawing letters over plugs.
 	let x = get_plugboard_state();
