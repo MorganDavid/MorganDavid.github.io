@@ -1,5 +1,5 @@
 # JavaScript Enigma Machine Emulator 
-#### [Demo hosted here](https://morgandavid.me/enigma.html)
+#### [Demo hosted here](https://morgandavid.me/enigma/)
 
 This project emulates an Enigma machine - most famous for being used through WW2 as the main form of long-distance Nazi communication. 
 
