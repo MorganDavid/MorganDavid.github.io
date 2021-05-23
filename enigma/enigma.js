@@ -205,12 +205,13 @@ class Rotor {
 	}
 	translate(letter,backwards=false){
 		let perms = (backwards) ? invertSet(this.rotorperms) : this.rotorperms;
-		letter = validAlphabet(letter+this.bias);
-		letter = validAlphabet(letter-this.ringoffset);
-		console.log("Letter is "+letter);
-		let out = validAlphabet(perms[letter].charCodeAt(0)-64);
+
+		let out = validAlphabet(letter+this.bias);
+		out = validAlphabet(out-this.ringoffset);
+		out = validAlphabet(perms[out].charCodeAt(0)-64);
 		out = validAlphabet(out-this.bias);
 		out = validAlphabet(out+this.ringoffset);
+		
 		makeLog("Rotor translated from: "+String.fromCharCode(letter+64)+" to "+String.fromCharCode(out+64)+". walzen(rotor): "+this.rotorselect+", grundstellung(start pos): "+this.bias+", ringstellung(offset): "+this.ringoffset+", inverse: "+backwards);
 		return out;
 	}
@@ -235,9 +236,7 @@ class Rotor {
 
 	//Ringstellung
 	incrementOffset(){if(this.ringoffset<25){this.ringoffset+=1;}else{this.ringoffset=0;}}
-	decrementOffset(){
-		console.log("dec");
-		if(this.ringoffset>0){this.ringoffset-=1;}else{this.ringoffset=25;}}
+	decrementOffset(){if(this.ringoffset>0){this.ringoffset-=1;}else{this.ringoffset=25;}}
 
 }
 
@@ -320,7 +319,6 @@ function changeRotorOffset(id){
 }
 //Walzenloge
 function changeRotorPositions(rotor_pos,new_rot){
-	console.log(new_rot+" changed");
 	enigmaMachine.getRotor(rotor_pos).changeRotor(new_rot);
 }
 
