@@ -57,9 +57,9 @@ network.on("afterDrawing",function(ctx){
 		let index = (i%2==0) ? (i/2)-1:Math.floor(i/2);
 		let pair = x[index];
 		var nodePosition = network.getPositions([i]);
-		console.log(nodePosition);
-	    ctx.font = "20px Arial";
-	    ctx.fillStyle=colors[index+1];
+
+		ctx.font = "20px Arial";
+	    ctx.fillStyle="#AABBAA";
 		ctx.fillText(pair[0]+"-"+pair[1], nodePosition[i].x-17, nodePosition[i].y-35);
 		ctx.fill();
 		ctx.stroke();
