@@ -32,7 +32,7 @@ var options = {nodes:{shape:'image', borderWidth:4, image:"images/plug.png"},
 					physics:{enabled:true},
 					interaction:{dragView:false,zoomView:false},
 					edges:{width:5,selectionWidth:6},
-					layout:{hierarchical:{enabled:102}}};
+					layout:{hierarchical:{enabled:true}}};
 var network = new vis.Network(container, data, options);
 
 //Only runs at the start of the network, randomly places the plugs in sockets
